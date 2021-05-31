@@ -1,0 +1,120 @@
+﻿@model List<User>
+
+@{
+    var count = 1;
+}
+
+@if (TempData["Msg"] != null)
+{
+    <div class="alert alert-@TempData["MsgType"]">
+        @TempData["Msg"]
+    </div>
+}
+
+<div class="card shadow mb-4">
+    <div class="card-header py-3">
+        <a href="#" class="btn btn-primary btn-icon-split" data-toggle="modal" data-target="#newUserModal">
+            <span class="icon text-white-50">
+                <i class="fas fa-plus"></i>
+            </span>
+            <span class="text">Add User</span>
+        </a>
+    </div>
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-hover table-striped" id="dataTable" width="100%" cellspacing="0">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Full Name</th>
+                        <th>Role</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var user in Model)
+                    {
+                        <tr>
+                            <td>@count</td>
+                            <td>@user.Fullname</td>
+                            <td>@user.Role</td>
+                            <td>
+                                <a class="btn btn-primary btn-sm" onclick="return LoadDetails('@user.Username')">
+                                    <span class="icon text-white-50">
+                                        <i class="fas fa-eye"></i>
+                                    </span>
+                                </a>
+
+                                @if (user.Role != "Admin")
+                                {
+                                    <a class="btn btn-danger btn-sm" asp-action="Delete" asp-route-id="@user.Username" onclick="return ConfirmDelete()">
+                                        <span class="icon text-white-50">
+                                            <i class="fas fa-trash"></i>
+                                        </span>
+                                    </a>
+                                }
+                            </td>
+                        </tr>
+                        count++;
+                    }
+                </tbody>
+                @if (count > 10)
+                {
+                    <tfoot>
+                        <tr>
+                            <th>#</th>
+                            <th>Full Name</th>
+                            <th>Role</th>
+                        </tr>
+                    </tfoot>
+                }
+            </table>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="newUserModal" role="dialog">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Add New User</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label class="col-form-label">Full Name :</label>
+                    <input type="text" class="form-control" id="txtNewFullName">
+                </div>
+
+                <div class="form-group">
+                    <label class="col-form-label">Username :</label>
+                    <input type="text" class="form-control" id="txtNewUsername">
+                </div>
+
+                <div class="form-group">
+                    <label class="col-form-label">Password :</label>
+                    <input type="password" class="form-control" id="txtNewPassword">
+                </div>
+
+                <div class="form-group">
+                    <label class="col-form-label">Confirm Password :</label>
+                    <input type="password" class="form-control" id="txtNewConfirmPassword">
+                </div>
+
+                <div class="form-group">
+                    <label class="col-form-label">Role :</label>
+                    <select id="ddlRole" class="form-control">
+                        <option value="0">-- SELECT --</option>
+                        <option value="Admin">Admin</option>
+                        <option value="User">User</option>
+                    </select>
+                </div>
+
+            </div>
+            <div class="modal-footer">
+                <input id="btnNewUser" type="button" class="btn btn-primary" value="Add" />
+                <button type="button" class="btn btn-primary" data-dismiss="modal">Cancel</button>
+            </div>
+        </div>
+    </div>
+</div>

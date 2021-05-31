@@ -1,0 +1,109 @@
+﻿@model LoginUser
+@{
+    Layout = "";
+}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Login</title>
+
+    <!-- Custom fonts for this template-->
+    <link href="~/lib/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
+          rel="stylesheet">
+
+    <!-- Custom styles for this template-->
+    <link href="~/lib/css/styles.css" rel="stylesheet" />
+
+</head>
+
+<body class="bg-secondary">
+
+    <div class="container">
+
+        <!-- Outer Row -->
+        <div class="row justify-content-center">
+            <div class="col-xl-6 col-lg-12 col-md-9">
+                <div class="card o-hidden border-0 shadow-lg my-5">
+                    <div class="card-body p-0">
+                        <!-- Nested Row within Card Body -->
+                        <div class="row">                           
+                            <div class="col-lg-12">
+                                <div class="p-5">
+                                    <div class="text-center">
+                                        <h1 class="page-section-heading text-center text-uppercase text-secondary mb-0">Welcome Back!</h1>
+                                    </div>
+                                    <div class="divider-custom">
+                                        <div class="divider-custom-line"></div>
+                                        <div class="divider-custom-icon"><i class="fas fa-crown"></i></div>
+                                        <div class="divider-custom-line"></div>
+                                    </div>
+                                    <div class="row justify-content-center">
+                                        <div class="col-md-8 col-md-7">
+                                            <form asp-controller="Account" asp-action="Login" method="post">
+                                                <div class="form-floating">
+                                                    <input class="form-control" id="inputUsername" type="text" asp-for="Username" placeholder="Username" required />
+                                                    <label for="inputUsername">
+                                                        <i class="fas fa-user"></i>
+                                                        Username
+                                                    </label>
+                                                </div>
+                                                <div class="form-floating">
+                                                    <input class="form-control" id="inputPassword" type="password" asp-for="Password" placeholder="Password" required />
+                                                    <label for="inputPassword">
+                                                        <i class="fas fa-lock"></i>
+                                                        Password
+                                                    </label>
+                                                </div>
+                                                <br />
+                                                @if (ViewData["Message"] != null)
+                                                {
+                                                    <div class="alert alert-@ViewData["MsgType"]">
+                                                        @ViewData["Message"]
+                                                    </div>
+                                                }
+                                                <button class="form-control btn btn-primary btn-md" type="submit">Login</button>
+                                                <br />
+                                            </form>
+                                        </div>
+                                    </div>
+                                    <hr />
+                                    <div class="text-center">
+                                        <a class="small" href="forgot-password.html">Forgot Password?</a>
+                                        &nbsp;|&nbsp;
+                                        <a class="small" href="/Account/Register">Create an Account!</a>
+                                    </div>
+                                    <div class="text-center">
+                                        <a class="small" href="/Web/Index">Back to Homepage</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap core JavaScript-->
+    <script src="~/lib/vendor/jquery/jquery.min.js"></script>
+    <script src="~/lib/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Core plugin JavaScript-->
+    <script src="~/lib/vendor/jquery-easing/jquery.easing.min.js"></script>
+
+    <!-- Custom scripts for all pages-->
+    <script src="~/lib/js/sb-admin-2.min.js"></script>
+
+</body>
+
+</html>

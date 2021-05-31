@@ -1,0 +1,69 @@
+﻿@model List<User>
+
+@section ScriptSection {
+    <script>
+        function AddNewUser(newFullName, newUsername, newPassword, newRole) {
+            var url = "/api/User/AddUser/" + newFullName + "/" + newUsername + "/" + newPassword + "/" + newRole;
+
+            $.getJSON(url, function (result) {
+                if (result == 1) {
+                    alert("New user added!")
+                    $('body').removeClass('modal-open');
+                    $('.modal-backdrop').remove();
+                    location.reload();
+                }
+                else if (result == 0) {
+                    alert("Failed to add new user!")
+                }
+                else {
+                    alert("Username taken!")
+                }
+            });
+        }
+
+        function LoadDetails(username) {
+            var url = "/User/Details?username=" + username;
+            $("#partialview").load(url);
+        }
+
+        function LoadUserTable() {
+            $("#partialview").load("/User/UserTable");
+        }
+
+        function ConfirmDelete() {
+            if (confirm("Are you sure you want to delete?") == false) {
+                event.preventDefault();
+                event.stopPropagation();
+                return false
+            }
+        }
+
+        $(document).ready(function () {
+            $(document.body).on("click", "#btnNewUser", function () {
+                var newFullName = $("#txtNewFullName").val();
+                var newUsername = $("#txtNewUsername").val();
+                var newPassword = $("#txtNewPassword").val();
+                var newConfirmPassword = $("#txtNewConfirmPassword").val();
+                var newRole = $("#ddlRole").val();
+
+                if (newFullName == "" || newUsername == "" || newPassword == "" || newConfirmPassword == "" || newRole == 0) {
+                    alert("Please fill up all details!")
+                }
+                else if (newPassword != newConfirmPassword) {
+                    alert("Confirm Password do not match!")
+                }
+                else if (newConfirmPassword.length < 8) {
+                    alert("Password length must be at least 8 characters long!")
+                } 
+                else {
+                    AddNewUser(newFullName, newUsername, newPassword, newRole);
+                }
+            });
+        });
+
+    </script>
+}
+
+<div id="partialview">
+    <partial name="_UserTable" />
+</div>

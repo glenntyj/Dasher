@@ -1,0 +1,71 @@
+﻿@model List<Note>
+
+@{
+    var count = 1;
+    string username = ViewData["CurrentUsername"].ToString();
+}
+
+<div class="card shadow mb-4">
+    <div class="card-header py-3">
+        <a href="#" class="btn btn-primary btn-icon-split" data-toggle="modal" data-target="#newNoteModal">
+            <span class="icon text-white-50">
+                <i class="fas fa-plus"></i>
+            </span>
+            <span class="text">Add Note</span>
+        </a>
+    </div>
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-hover table-striped" id="dataTable" width="100%" cellspacing="0">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Title</th>
+                        <th>Topic</th>
+                        <th>Description</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var note in Model)
+                    {
+                        if (note.Username == username)
+                        {
+                            <tr>
+                                <td>@count</td>
+                                <td>@note.Title</td>
+                                <td>@note.Topic</td>
+                                <td>@note.Description</td>
+                                <td>
+                                    Action
+                                </td>
+                            </tr>
+                        }
+                        count++;
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="newNoteModal" role="dialog">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Add New Note</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label class="col-form-label">Title :</label>
+                    <input type="text" class="form-control" id="txtNewTitle">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <input id="btnNewInv" type="button" class="btn btn-primary" value="Add" />
+                <button type="button" class="btn btn-primary" data-dismiss="modal">Cancel</button>
+            </div>
+        </div>
+    </div>
+</div>
