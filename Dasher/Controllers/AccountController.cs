@@ -86,19 +86,10 @@ namespace Dasher.Controllers
             }
             else
             {
-                string insert = "INSERT INTO users (Fullname, Username, Password, Role) VALUES ('{0}', '{1}', '{2}', '{3}')";
-                int res = DBUtl.ExecSQL(insert, user.Fullname, user.Username, user.Password, "User");
+                string insert = "INSERT INTO users (Fullname, Username, Password, Role, Created) VALUES ('{0}', '{1}', '{2}', '{3}', NOW())";
+                DBUtl.ExecSQL(insert, user.Fullname, user.Username, user.Password, "User");
 
-                if (res == 1)
-                {
-                    TempData["Message"] = "User Added";
-                    TempData["MsgType"] = "success";                  
-                }
-                else
-                {
-                    TempData["Message"] = DBUtl.DB_Message;
-                    TempData["MsgType"] = "danger";
-                }
+                //To redirect to "Thank you for registering page"
                 return RedirectToAction(REDIRECT_ACTN, REDIRECT_CNTR);
             }
         }

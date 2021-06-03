@@ -1,0 +1,60 @@
+﻿@model dynamic
+
+@{ 
+    int count = 1;
+}
+
+<div class="card shadow mb-4">
+    <div class="card-header py-3">
+        <h6 class="m-0 font-weight-bold text-primary">SUPERMARKETS</h6>
+    </div>
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-hover table-striped" width="100%" cellspacing="0">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Company</th>
+                        <th>Url</th>
+                        <th>Last Updated (Singapore GMT+8)</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var website in Model.Website)
+                    {
+                        <tr>
+                            <td>@count</td>
+                            <td>@website.Company</td>
+                            <td>@website.Url</td>
+                            <td>@String.Format("{0:dd-MM-yyyy hh:mm:ss tt}", website.LastScraped)</td>
+                            <td>
+                                <a asp-controller="Scrape" asp-action="Source" asp-route-id="@website.Id"
+                                   class="d-none d-sm-inline-block btn btn-success btn-primary shadow-sm">
+                                    <i class="fas fa-table fa-sm text-white-50"></i> Source
+                                </a>
+                            </td>
+                        </tr>
+                        count++;
+                    }
+                </tbody>
+                @if (count > 10)
+                {
+                    <tfoot>
+                        <tr>
+                            <th>#</th>
+                            <th>Company</th>
+                            <th>Url</th>
+                            <th>Last Updated (Singapore GMT+8)</th>
+                            <th>Action</th>
+                        </tr>
+                    </tfoot>
+                }
+            </table>
+        </div>
+    </div>
+</div>
+
+<div id="partialview">
+    <partial name="_ScrapeTable" />
+</div>

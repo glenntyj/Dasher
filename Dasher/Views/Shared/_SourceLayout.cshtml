@@ -33,11 +33,11 @@
         <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
 
             <!-- Sidebar - Brand -->
-            <a class="sidebar-brand d-flex align-items-center justify-content-center" asp-controller="Home" asp-action="Index">
+            <a class="sidebar-brand d-flex align-items-center justify-content-center" asp-controller="Source" asp-action="Index">
                 <div class="sidebar-brand-icon rotate-n-15">
-                    <i class="fas fa-wind"></i>
+                    <i class="fas fa-list"></i>
                 </div>
-                <div class="sidebar-brand-text mx-3">DASHMIN</div>
+                <div class="sidebar-brand-text mx-3">SOURCE</div>
             </a>
 
             <!-- Divider -->
@@ -45,25 +45,11 @@
 
             <!-- Nav Item - Dashboard -->
             <li class="nav-item">
-                <a class="nav-link" asp-controller="Scrape" asp-action="Index">
-                    <i class="fas fa-bars"></i>
-                    <span>Scrape</span>
+                <a class="nav-link" asp-controller="Source" asp-action="Supermarket">
+                    <i class="fas fa-fw fa-draw-polygon"></i>
+                    <span>Supermarket</span>
                 </a>
             </li>
-
-            <!-- Divider -->
-            <hr class="sidebar-divider my-0">
-
-            <!-- Nav Item - Dashboard -->
-            @if (User.IsInRole("Admin"))
-            {
-                <li class="nav-item">
-                    <a class="nav-link" asp-controller="User" asp-action="Index">
-                        <i class="fas fa-fw fa-user"></i>
-                        <span>User</span>
-                    </a>
-                </li>
-            }
 
             <!-- Divider -->
             <hr class="sidebar-divider d-none d-md-block">

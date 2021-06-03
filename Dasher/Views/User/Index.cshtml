@@ -3,7 +3,7 @@
 @section ScriptSection {
     <script>
         function AddNewUser(newFullName, newUsername, newPassword, newRole) {
-            var url = "/api/User/AddUser/" + newFullName + "/" + newUsername + "/" + newPassword + "/" + newRole;
+            var url = "/api/Dasher/AddUser/" + newFullName + "/" + newUsername + "/" + newPassword + "/" + newRole;
 
             $.getJSON(url, function (result) {
                 if (result == 1) {

@@ -1,0 +1,110 @@
+﻿@{
+    Layout = "_SourceLayout";
+}
+
+@model Supermarket
+
+@section ScriptSection {
+    <script>
+        function ajaxGetCategory() {
+            var retailer = $("#ddlRetailer").val();
+            var apiUrl = "/api/Dasher/getCategory/" + retailer;
+            var ddlCategory = $("#ddlCategory");
+            ddlCategory.html("<option val=''>-- SELECT --</option>");
+            $.getJSON(apiUrl,
+                function (result) {
+                    $.each(result, function (i, field) {
+                        ddlCategory.append(
+                            "<option val='" + field.category + "'>" +
+                            field.category + "</option>");
+                    });
+                });
+        }
+
+        function ajaxGetSubCategory() {
+            var retailer = $("#ddlRetailer").val();
+            var category = $("#ddlCategory").val();
+            var apiUrl = "/api/Dasher/getSubCategory/" + retailer + "/" + category;
+            var ddlSubCategory = $("#ddlSubCategory");
+            ddlSubCategory.html("<option val=''>-- SELECT --</option>");
+            $.getJSON(apiUrl,
+                function (result) {
+                    $.each(result, function (i, field) {
+                        ddlSubCategory.append(
+                            "<option val='" + field.subCategory + "'>" +
+                            field.subCategory + "</option>");
+                    });
+                });
+        }
+
+        function getSource() {
+            var category = $("#ddlCategory").val();
+            var subCategory = $("#ddlSubCategory").val();
+            var url = "/Source/GetSource/" + category.replaceAll(" ", "-") + "*" + subCategory.replaceAll(" ", "-");
+
+            alert("Loading results...")
+            $("#partialview").load(url);
+        }
+
+        $(document).ready(function () {
+            $(document.body).on("change", "#ddlRetailer", ajaxGetCategory);
+        });
+
+        $(document).ready(function () {
+            $(document.body).on("change", "#ddlCategory", ajaxGetSubCategory);
+        });
+    </script>
+}
+
+@if (TempData["Message"] != null)
+{
+    <div class="alert alert-@TempData["MsgType"]">
+        @TempData["Message"]
+    </div>
+}
+
+<div class="card shadow mb-4">
+    <div class="card-header py-3">
+        <h6 class="m-0 font-weight-bold text-primary">SELECTION</h6>
+    </div>
+    <div class="card-body">
+        <h6 class="m-0 font-weight-bold text-primary">
+            <div class="form-group">
+                <label class="col-form-label">Retailer :</label>
+                <select asp-for="@Model.Retailer" id="ddlRetailer"
+                        asp-items="@((SelectList)ViewData["retailers"])"
+                        class="form-control-plaintext col-6">
+                    <option value="">-- SELECT --</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label class="col-form-label">Category :</label>
+                <select id="ddlCategory" class="form-control-plaintext col-6">
+                    <option value="">-- SELECT --</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label class="col-form-label">Sub-Category :</label>
+                <select id="ddlSubCategory" class="form-control-plaintext col-6">
+                    <option value="">-- SELECT --</option>
+                </select>
+            </div>
+
+            <a href="#" onclick="return getSource()"
+               class="d-none d-sm-inline-block btn btn-success btn-primary shadow-sm">
+                <i class="fas fa-table fa-sm text-white-50"></i> Source
+            </a>
+        </h6>
+    </div>
+</div>
+
+<div class="card shadow mb-4">
+    <div class="card-header py-3">
+        <h6 class="m-0 font-weight-bold text-primary">RESULTS</h6>
+    </div>
+    <div class="card-body" id="partialview">
+        <partial name="_ResultTable" />
+    </div>
+</div>

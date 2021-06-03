@@ -7,7 +7,7 @@ using Dasher.Models;
 
 namespace Dasher.Controllers
 {
-    [Route("api/User")]
+    [Route("api/Dasher")]
     public class ApiController : Controller
     {
         private List<User> users = DBUtl.GetList<User>(@"SELECT * FROM users");
@@ -24,7 +24,7 @@ namespace Dasher.Controllers
 
             if (model == null)
             {
-                string insert = "INSERT INTO users (Fullname, Username, Password, Role) VALUES ('{0}', '{1}', '{2}', '{3}')";
+                string insert = "INSERT INTO users (Fullname, Username, Password, Role, Created) VALUES ('{0}', '{1}', '{2}', '{3}', NOW())";
                 int res = DBUtl.ExecSQL(insert, fullname, username, password, role);
 
                 if (res == 1)
@@ -40,6 +40,24 @@ namespace Dasher.Controllers
             {
                 return Ok(-1);
             }
+        }
+
+        [HttpGet("getCategory/{retailer}")]
+        public IActionResult getCategory(string retailer)
+        {
+            string select = "SELECT DISTINCT Category FROM supermarkets WHERE Retailer='{0}'";
+            List<Supermarket> model = DBUtl.GetList<Supermarket>(select, retailer);
+
+            return Ok(model);
+        }
+
+        [HttpGet("getSubCategory/{retailer}/{category}")]
+        public IActionResult getSubCategory(string retailer, string category)
+        {
+            string select = "SELECT DISTINCT SubCategory FROM supermarkets WHERE Retailer='{0}' AND Category='{1}'";
+            List<Supermarket> model = DBUtl.GetList<Supermarket>(select, retailer, category);
+
+            return Ok(model);
         }
     }
 }
